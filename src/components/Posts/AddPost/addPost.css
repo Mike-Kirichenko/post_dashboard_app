@@ -1,0 +1,12 @@
+#addPost.MuiBox-root.css-0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 10% 0;
+}
+
+#addButton.MuiSvgIcon-root.MuiSvgIcon-colorPrimary.MuiSvgIcon-fontSizeMedium.css-ci5apu-MuiSvgIcon-root {
+  width: 80px;
+  height: 80px;
+}

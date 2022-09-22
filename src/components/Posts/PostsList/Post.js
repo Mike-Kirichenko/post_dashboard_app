@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Button, Checkbox, TableCell, TableRow } from '@mui/material';
-import ModalContext from '../../context/ModalContext';
+import ModalContext from '../../../context/ModalContext';
 
 const Post = ({ row }) => {
-  const { modalSetOpen } = useContext(ModalContext);
+  const { setfullPostModal } = useContext(ModalContext);
 
   const { createdAt, updatedAt, title, desc } = row;
   return (
@@ -26,7 +26,7 @@ const Post = ({ row }) => {
         <Button
           variant='contained'
           size='small'
-          onClick={() => modalSetOpen(true)}
+          onClick={() => setfullPostModal({ id: 1 })}
         >
           <MenuBookIcon />
         </Button>

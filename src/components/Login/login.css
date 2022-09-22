@@ -1,0 +1,19 @@
+/*login-wrapper*/
+#loginWrapper.MuiBox-root.css-0 {
+  width: 55%;
+  margin: auto;
+  text-align: center;
+}
+/*login-inputs*/
+.loginInput.MuiFormControl-root.MuiTextField-root.loginInput.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  text-transform: uppercase;
+  padding-top: 2%;
+  margin-top: 10%;
+}
+/*login-button*/
+.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+  width: 30%;
+  margin-top: 10%;
+  float: right;
+}

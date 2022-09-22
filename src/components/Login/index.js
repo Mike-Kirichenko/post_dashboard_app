@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { loginWrapperStyle, loginInputStyle, loginButtonStyle } from './styles';
+import './login.css';
 
 const Login = () => {
   const tryLogin = (event) => {
@@ -9,29 +9,29 @@ const Login = () => {
   };
 
   return (
-    <Box sx={loginWrapperStyle}>
+    <Box id='loginWrapper'>
       <form onSubmit={tryLogin}>
         <TextField
           // error={true}
-          id='standard-basic'
+          id='login'
           label='Login'
           variant='standard'
-          sx={loginInputStyle}
+          className='loginInput'
           placeholder='Your nickname or email'
           // helperText='Incorrect entry.'
         />
         <TextField
           // error={true}
-          id='standard-password-input'
+          id='password'
           label='Password'
           type='password'
           autoComplete='current-password'
           variant='standard'
-          sx={loginInputStyle}
+          className='loginInput'
           placeholder='********'
           // helperText='Incorrect entry.'
         />
-        <Button variant='contained' sx={loginButtonStyle} type='submit'>
+        <Button variant='outlined' type='submit'>
           Login
         </Button>
       </form>

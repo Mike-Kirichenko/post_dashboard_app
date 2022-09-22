@@ -11,8 +11,8 @@ const PostTableHeader = () => {
         <TableCell align='left'>
           <DeleteIcon />
         </TableCell>
-        <TableCell sx={{ width: '200px' }}>CreatedAt </TableCell>
-        <TableCell sx={{ width: '200px' }}>UpdatedAt</TableCell>
+        <TableCell>CreatedAt </TableCell>
+        <TableCell>UpdatedAt</TableCell>
         <TableCell>Title</TableCell>
         <TableCell>Desc</TableCell>
         <TableCell align='center'>Read full</TableCell>
