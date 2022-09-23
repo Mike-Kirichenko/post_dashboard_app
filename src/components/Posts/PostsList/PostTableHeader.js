@@ -2,20 +2,28 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 
 const PostTableHeader = () => {
+  const headings = [
+    'CreatedAt',
+    'UpdatedAt',
+    'Title',
+    'Desc',
+    'Category',
+    'Img',
+    'Preview',
+  ];
+
   return (
     <TableHead>
       <TableRow>
-        <TableCell align='left' padding='checkbox'>
+        <TableCell padding='checkbox'>
           <Checkbox color='primary' />
         </TableCell>
-        <TableCell align='left'>
+        <TableCell>
           <DeleteIcon />
         </TableCell>
-        <TableCell>CreatedAt </TableCell>
-        <TableCell>UpdatedAt</TableCell>
-        <TableCell>Title</TableCell>
-        <TableCell>Desc</TableCell>
-        <TableCell align='center'>Read full</TableCell>
+        {headings.map((headingText, index) => (
+          <TableCell key={`${headingText}-${index}`}>{headingText} </TableCell>
+        ))}
       </TableRow>
     </TableHead>
   );

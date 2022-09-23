@@ -1,0 +1,11 @@
+/*date and time box*/
+.MuiBox-root.css-0.date-time-box {
+  display: flex;
+  align-items: flex-end;
+}
+
+/*picture thumb-box*/
+.MuiBox-root.css-0.post-table-thumb-box {
+  width: 50px;
+  height: 50px;
+}
