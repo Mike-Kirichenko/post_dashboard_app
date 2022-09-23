@@ -5,8 +5,8 @@ import PostTableHeader from './PostTableHeader';
 import Post from './Post';
 import Pagination from './Pagination';
 
-const createData = (createdAt, updatedAt, title, desc, category, img) => {
-  return { createdAt, updatedAt, title, desc, category, img };
+const createData = (id, createdAt, updatedAt, title, desc, category, img) => {
+  return { id, createdAt, updatedAt, title, desc, category, img };
 };
 
 const postsWrapperStyle = {
@@ -16,6 +16,7 @@ const postsWrapperStyle = {
 };
 const rows = [
   createData(
+    1,
     '20/09/2022 17:40',
     '20/09/2021 20:40',
     'Where can I get some?',
@@ -24,6 +25,7 @@ const rows = [
     ''
   ),
   createData(
+    2,
     '20/09/2022 10:00',
     '20/09/2021 22:15',
     'Where does it come from',
@@ -33,6 +35,7 @@ const rows = [
   ),
 
   createData(
+    3,
     '20/09/2022 21:00',
     '20/09/2021 22:00',
     'Why do we use it?',
@@ -48,8 +51,8 @@ const PostsList = () => {
       <Table>
         <PostTableHeader />
         <TableBody>
-          {rows.map((row) => (
-            <Post row={row} />
+          {rows.map((row, index) => (
+            <Post row={row} key={`post-${row.id}-${index}`} />
           ))}
         </TableBody>
       </Table>

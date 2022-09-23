@@ -1,0 +1,10 @@
+#filter-wrapper.MuiBox-root.css-0 {
+  flex-grow: 1;
+  margin: 8%;
+  text-align: center;
+}
+
+.filterSubmit.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.filterSubmit.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  height: 30px;
+  margin-top: 15px;
+}
