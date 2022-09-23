@@ -9,3 +9,8 @@
   width: 50px;
   height: 50px;
 }
+
+.post-title.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root,
+.post-text.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root {
+  min-width: 200px;
+}

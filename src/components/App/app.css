@@ -14,8 +14,12 @@ a {
 }
 
 .thumb {
-  border: 1px solid gray;
   padding: 5px;
+  box-sizing: border-box;
+}
+
+.thumb-border {
+  border: 1px solid gray;
 }
 
 .post-img-preview-box {

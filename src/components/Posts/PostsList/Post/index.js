@@ -8,8 +8,9 @@ import ModalContext from '../../../../context/ModalContext';
 import './post.css';
 
 const Post = ({ row }) => {
+  const noImgUrl = './static-imgs/no-img.png';
   const { setfullPostModal } = useContext(ModalContext);
-  const { createdAt, updatedAt, title, desc } = row;
+  const { createdAt, updatedAt, title, desc, category, img } = row;
   const [createdAtDate, createdAtTime] = createdAt.split(' ');
   const [updatedAtDate, updatedAtTime] = updatedAt.split(' ');
 
@@ -39,16 +40,16 @@ const Post = ({ row }) => {
           &nbsp;{updatedAtTime}
         </Box>
       </TableCell>
-      <TableCell>{title}</TableCell>
-      <TableCell>
+      <TableCell className='post-title'>{title}</TableCell>
+      <TableCell className='post-text'>
         {desc.length > 100 ? `${desc.substring(0, 50)}...` : desc}
       </TableCell>
-      <TableCell>Category</TableCell>
+      <TableCell>{category}</TableCell>
       <TableCell>
         <Box className='post-table-thumb-box'>
           <img
-            src='./static-imgs/no-img.png'
-            alt='no-img'
+            src={img ? img : noImgUrl}
+            alt={title}
             className='resp-img thumb'
           />
         </Box>
