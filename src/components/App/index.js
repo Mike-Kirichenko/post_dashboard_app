@@ -8,7 +8,15 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' exact element={<Posts />} />
+        <Route
+          path='/'
+          exact
+          element={
+            <WithAuth>
+              <Posts />
+            </WithAuth>
+          }
+        />
         <Route path='/login' exact element={<Login />} />
       </Routes>
     </Router>
