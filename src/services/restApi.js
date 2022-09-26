@@ -8,10 +8,11 @@ const msg = (res, endpoint) => {
 };
 
 const tryLogin = async (userData) => {
-  const res = await axios.post(`${restEndpointBase}/login`, userData);
+  const finalEndPoint = `${restEndpointBase}/login`;
+  const res = await axios.post(finalEndPoint, userData);
   const { token } = res.data;
   localStorage.setItem('token', token);
-  return msg(res, restEndpointBase);
+  return msg(res, finalEndPoint);
 };
 
 export { tryLogin };
