@@ -8,8 +8,10 @@ import ModalContext from '../../../../context/ModalContext';
 import './post.css';
 
 const Post = ({ row }) => {
-  const noImgUrl = './static-imgs/no-img.png';
   const { setfullPostModal } = useContext(ModalContext);
+  if (!row) return null;
+
+  const noImgUrl = './static-imgs/no-img.png';
   const { createdAt, updatedAt, title, desc, category, img } = row;
   const [createdAtDate, createdAtTime] = createdAt.split(' ');
   const [updatedAtDate, updatedAtTime] = updatedAt.split(' ');
