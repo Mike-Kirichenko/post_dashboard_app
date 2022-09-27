@@ -1,20 +1,20 @@
-import { useContext } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Box, Button, Checkbox, TableCell, TableRow } from '@mui/material';
-import ModalContext from '../../../../context/ModalContext';
+import { formatDate } from '../../../../helpers';
 import './post.css';
 
 const Post = ({ row }) => {
-  const { setfullPostModal } = useContext(ModalContext);
-  if (!row) return null;
-
   const noImgUrl = './static-imgs/no-img.png';
-  const { createdAt, updatedAt, title, desc, category, img } = row;
-  const [createdAtDate, createdAtTime] = createdAt.split(' ');
-  const [updatedAtDate, updatedAtTime] = updatedAt.split(' ');
+  const { createdAt, updatedAt, title, text, category, img } = row;
+  const [createdAtDate, createdAtTime] = formatDate(
+    new Date(Number(createdAt))
+  ).split(' ');
+  const [updatedAtDate, updatedAtTime] = formatDate(
+    new Date(Number(updatedAt))
+  ).split(' ');
 
   return (
     <TableRow>
@@ -44,9 +44,9 @@ const Post = ({ row }) => {
       </TableCell>
       <TableCell className='post-title'>{title}</TableCell>
       <TableCell className='post-text'>
-        {desc.length > 100 ? `${desc.substring(0, 50)}...` : desc}
+        {text.length > 100 ? `${text.substring(0, 50)}...` : text}
       </TableCell>
-      <TableCell>{category}</TableCell>
+      <TableCell>{category.name}</TableCell>
       <TableCell>
         <Box className='post-table-thumb-box'>
           <img
@@ -57,11 +57,7 @@ const Post = ({ row }) => {
         </Box>
       </TableCell>
       <TableCell>
-        <Button
-          variant='contained'
-          size='small'
-          onClick={() => setfullPostModal({ id: 1 })}
-        >
+        <Button variant='contained' size='small'>
           <MenuBookIcon />
         </Button>
       </TableCell>

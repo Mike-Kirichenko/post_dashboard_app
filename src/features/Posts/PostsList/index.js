@@ -23,7 +23,7 @@ const PostsList = () => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts());
     }
-  }, [postStatus, dispatch]);
+  }, [postStatus, posts, dispatch]);
 
   if (postStatus === 'loading') return 'loading...';
   if (postStatus === 'failed') return 'fail!';
@@ -34,7 +34,7 @@ const PostsList = () => {
         <PostTableHeader />
         <TableBody>
           {posts.map((row, index) => (
-            <Post row={null || row} />
+            <Post row={row} key={`post-${row.id}-${index}`} />
           ))}
         </TableBody>
       </Table>
