@@ -5,8 +5,10 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const UserPanel = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const userBoxStyle = {
@@ -30,6 +32,12 @@ const UserPanel = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <Box sx={userBoxStyle}>
       <Button
@@ -54,7 +62,7 @@ const UserPanel = () => {
         }}
       >
         <MenuItem onClick={handleClose}>Edit profile</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>
   );
