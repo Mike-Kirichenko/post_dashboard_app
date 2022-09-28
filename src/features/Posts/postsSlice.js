@@ -5,7 +5,6 @@ const initialState = {
   list: [],
   qty: 0,
   status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
 };
 
 const fetchPosts = createAsyncThunk(
@@ -29,7 +28,6 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
       });
   },
 });
@@ -39,13 +37,5 @@ const postsReducer = postsSlice.reducer;
 const getAllPosts = (state) => state.posts.list;
 const getPostsStatus = (state) => state.posts.status;
 const getPostsQty = (state) => state.posts.qty;
-const getPostsError = (state) => state.posts.error;
 
-export {
-  fetchPosts,
-  getAllPosts,
-  postsReducer,
-  getPostsStatus,
-  getPostsError,
-  getPostsQty,
-};
+export { fetchPosts, getAllPosts, postsReducer, getPostsStatus, getPostsQty };

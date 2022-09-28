@@ -22,7 +22,7 @@ const postsWrapperStyle = {
 };
 
 const PostsList = () => {
-  const limit = 10;
+  const limit = 15;
   const dispatch = useDispatch();
   const posts = useSelector(getAllPosts);
   const postStatus = useSelector(getPostsStatus);
