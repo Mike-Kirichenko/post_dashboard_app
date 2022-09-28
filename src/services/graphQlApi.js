@@ -17,8 +17,9 @@ export const graphqlRequest = async (query, variables = {}) => {
 
 export const loadPosts = async (variables) => {
   const posts = await graphqlRequest(
-    `query PostsQuery ($page: Int, $dateFrom: String, $dateTo: String) {
-        posts(page: $page, dateFrom: $dateFrom, dateTo: $dateTo) {
+    `query PostsQuery ($page: Int, $limit: Int, $dateFrom: String, $dateTo: String) {
+      posts(page: $page, limit: $limit, dateFrom: $dateFrom, dateTo: $dateTo) {
+          list{
             id
             title
             text
@@ -32,8 +33,10 @@ export const loadPosts = async (variables) => {
                firstName
                lastName
             }
-        }
-    }`,
+          }
+        qty
+      }
+  }`,
     variables
   );
   return posts;

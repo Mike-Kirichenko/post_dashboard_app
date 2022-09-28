@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box } from '@mui/system';
 import Table from '@mui/material/Table';
@@ -6,7 +6,12 @@ import TableBody from '@mui/material/TableBody';
 import PostTableHeader from './PostTableHeader';
 import Post from './Post';
 import Pagination from './Pagination';
-import { getAllPosts, getPostsStatus, fetchPosts } from '../postsSlice';
+import {
+  getAllPosts,
+  getPostsStatus,
+  getPostsQty,
+  fetchPosts,
+} from '../postsSlice';
 
 const postsWrapperStyle = {
   position: 'relative',
@@ -15,15 +20,24 @@ const postsWrapperStyle = {
 };
 
 const PostsList = () => {
+  const limit = 10;
   const dispatch = useDispatch();
   const posts = useSelector(getAllPosts);
   const postStatus = useSelector(getPostsStatus);
+  const postsQty = useSelector(getPostsQty);
+
+  const [page, setPage] = useState(1);
+
+  const handleSetPage = (event, value) => {
+    setPage(value);
+    dispatch(fetchPosts({ page: value, limit }));
+  };
 
   useEffect(() => {
     if (postStatus === 'idle') {
-      dispatch(fetchPosts());
+      dispatch(fetchPosts({ page, limit }));
     }
-  }, [postStatus, posts, dispatch]);
+  }, [postStatus, posts, page, dispatch]);
 
   if (postStatus === 'loading') return 'loading...';
   if (postStatus === 'failed') return 'fail!';
@@ -38,7 +52,11 @@ const PostsList = () => {
           ))}
         </TableBody>
       </Table>
-      <Pagination />
+      <Pagination
+        page={page}
+        handleSetPage={handleSetPage}
+        pagesQty={Math.ceil(postsQty / limit)}
+      />
     </Box>
   );
 };

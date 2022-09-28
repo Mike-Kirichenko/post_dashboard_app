@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { Box } from '@mui/system';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
@@ -18,6 +19,10 @@ const UserPanel = () => {
     textAlign: 'right',
   };
 
+  const { firstName, lastName, avatar } = jwt_decode(
+    localStorage.getItem('token')
+  );
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,8 +39,9 @@ const UserPanel = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar alt='Misha Kirichenko' src=''>
-          mk
+        <Avatar alt='avatar' src={avatar}>
+          {firstName[0]}
+          {lastName[0]}
         </Avatar>
       </Button>
       <Menu

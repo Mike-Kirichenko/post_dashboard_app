@@ -9,6 +9,7 @@ import './post.css';
 const Post = ({ row }) => {
   const noImgUrl = './static-imgs/no-img.png';
   const { createdAt, updatedAt, title, text, category, img } = row;
+
   const [createdAtDate, createdAtTime] = formatDate(
     new Date(Number(createdAt))
   ).split(' ');
