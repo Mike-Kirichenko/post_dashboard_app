@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+import { addPostPreviewData } from '../../../PostPreview/postPreviewSlice';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -7,6 +9,8 @@ import { formatDate } from '../../../../helpers';
 import './post.css';
 
 const Post = ({ row }) => {
+  const dispatch = useDispatch();
+
   const noImgUrl = './static-imgs/no-img.png';
   const { createdAt, updatedAt, title, text, category, img } = row;
 
@@ -58,7 +62,11 @@ const Post = ({ row }) => {
         </Box>
       </TableCell>
       <TableCell>
-        <Button variant='contained' size='small'>
+        <Button
+          variant='contained'
+          size='small'
+          onClick={() => dispatch(addPostPreviewData(row))}
+        >
           <MenuBookIcon />
         </Button>
       </TableCell>
