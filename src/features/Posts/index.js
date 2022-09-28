@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { TableContainer } from '@mui/material';
-import UserPanel from '../UserPanel';
+import UserPanel from '../../components/UserPanel';
 import Paper from '@mui/material/Paper';
 import PostsList from './PostsList';
-import PostPreview from '../Modals/PostPreview';
+import PostPreview from '../../components/Modals/PostPreview';
 import ModalContext from '../../context/ModalContext';
-import Filter from '../Filter';
+import Filter from '../../components/Filter';
 import AddPost from './AddPost';
 
 const Posts = () => {

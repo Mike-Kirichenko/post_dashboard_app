@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { Box } from '@mui/system';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const UserPanel = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const userBoxStyle = {
@@ -18,6 +21,10 @@ const UserPanel = () => {
     textAlign: 'right',
   };
 
+  const { firstName, lastName, avatar } = jwt_decode(
+    localStorage.getItem('token')
+  );
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,6 +32,12 @@ const UserPanel = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <Box sx={userBoxStyle}>
       <Button
@@ -34,8 +47,9 @@ const UserPanel = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar alt='Misha Kirichenko' src=''>
-          mk
+        <Avatar alt='avatar' src={avatar}>
+          {firstName[0]}
+          {lastName[0]}
         </Avatar>
       </Button>
       <Menu
@@ -48,7 +62,7 @@ const UserPanel = () => {
         }}
       >
         <MenuItem onClick={handleClose}>Edit profile</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>
   );
