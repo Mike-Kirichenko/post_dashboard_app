@@ -18,7 +18,7 @@ const postsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchPosts.pending, (state, action) => {
+      .addCase(fetchPosts.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -26,7 +26,7 @@ const postsSlice = createSlice({
         state.list = action.payload.list;
         state.qty = action.payload.qty;
       })
-      .addCase(fetchPosts.rejected, (state, action) => {
+      .addCase(fetchPosts.rejected, (state) => {
         state.status = 'failed';
       });
   },
