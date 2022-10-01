@@ -6,7 +6,13 @@ import {
   removeFromSelected
 } from "../postsSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Checkbox, TableCell, TableHead, TableRow } from "@mui/material";
+import {
+  Checkbox,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography
+} from "@mui/material";
 
 const PostTableHeader = () => {
   const dispatch = useDispatch();
@@ -36,7 +42,14 @@ const PostTableHeader = () => {
           />
         </TableCell>
         <TableCell>
-          <DeleteIcon />
+          {selectedPostIds.length > 0 && (
+            <>
+              <DeleteIcon className="interactive-icon" />
+              <Typography variant="sup" component="sup">
+                {selectedPostIds.length}
+              </Typography>
+            </>
+          )}
         </TableCell>
         {headings.map((headingText, index) => (
           <TableCell key={`${headingText}-${index}`}>{headingText} </TableCell>

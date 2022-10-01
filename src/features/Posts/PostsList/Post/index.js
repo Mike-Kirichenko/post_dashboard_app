@@ -39,7 +39,7 @@ const Post = ({ row }) => {
         />
       </TableCell>
       <TableCell>
-        <ModeEditIcon />
+        <ModeEditIcon className="interactive-icon" />
       </TableCell>
       <TableCell>
         <Box className="date-time-box">
