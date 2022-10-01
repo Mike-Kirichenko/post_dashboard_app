@@ -1,22 +1,39 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getSelectedPosts,
+  getAllPosts,
+  addAllToSelected,
+  removeFromSelected
+} from "../postsSlice";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Checkbox, TableCell, TableHead, TableRow } from "@mui/material";
 
 const PostTableHeader = () => {
-  const headings = [
-    'CreatedAt',
-    'UpdatedAt',
-    'Title',
-    'Desc',
-    'Category',
-    'Img',
-    'Preview',
-  ];
+  const dispatch = useDispatch();
+
+  const headings = ["CreatedAt", "Title", "Desc", "Category", "Img", "Preview"];
+
+  const allPostIds = useSelector(getAllPosts).map((post) => post.id);
+  const selectedPostIds = useSelector(getSelectedPosts);
+
+  const handleSetAllChecked = () => {
+    const allSeleted = checkSelected();
+    if (allSeleted) dispatch(removeFromSelected(allPostIds));
+    else dispatch(addAllToSelected(allPostIds));
+  };
+
+  const checkSelected = () =>
+    allPostIds.every((el) => selectedPostIds.includes(el));
 
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding='checkbox'>
-          <Checkbox color='primary' />
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={checkSelected()}
+            color="primary"
+            onChange={handleSetAllChecked}
+          />
         </TableCell>
         <TableCell>
           <DeleteIcon />
