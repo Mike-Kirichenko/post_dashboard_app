@@ -5,6 +5,7 @@ import PostsList from "./PostsList";
 import Filter from "../../components/Filter";
 import PostPreview from "./PostPreview";
 import AddPost from "./AddPost";
+import DeleteModal from "./DeleteModal";
 
 const Posts = () => {
   return (
@@ -16,6 +17,7 @@ const Posts = () => {
         <PostsList />
       </TableContainer>
       <PostPreview />
+      <DeleteModal />
     </>
   );
 };

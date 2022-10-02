@@ -3,7 +3,8 @@ import {
   getSelectedPosts,
   getAllPosts,
   addToSelected,
-  removeFromSelected
+  removeFromSelected,
+  setDeleteModal
 } from "../postsSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -21,6 +22,7 @@ const PostTableHeader = () => {
 
   const allPostIds = useSelector(getAllPosts).map((post) => post.id);
   const selectedPostIds = useSelector(getSelectedPosts);
+  const selectedToDeleteQty = useSelector(getSelectedPosts).length;
 
   const handleSetAllChecked = () => {
     const allSeleted = checkSelected();
@@ -44,7 +46,10 @@ const PostTableHeader = () => {
         <TableCell>
           {selectedPostIds.length > 0 && (
             <>
-              <DeleteIcon className="interactive-icon" />
+              <DeleteIcon
+                className="interactive-icon"
+                onClick={() => dispatch(setDeleteModal(selectedToDeleteQty))}
+              />
               <Typography variant="sup" component="sup">
                 {selectedPostIds.length}
               </Typography>

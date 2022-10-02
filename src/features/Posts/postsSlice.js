@@ -6,6 +6,7 @@ const initialState = {
   selected: [],
   preview: {},
   activePage: 1,
+  deleteModal: false,
   qty: 0,
   status: "idle" //'idle' | 'loading' | 'succeeded' | 'failed'
 };
@@ -31,6 +32,9 @@ const postsSlice = createSlice({
     },
     setActivePage: (state, action) => {
       state.activePage = action.payload;
+    },
+    setDeleteModal: (state, action) => {
+      state.deleteModal = action.payload;
     },
     removeFromSelected: (state, action) => {
       let withoutRemovedItems;
@@ -75,7 +79,8 @@ const {
   addPostPreviewData,
   resetPreview,
   removeFromSelected,
-  setActivePage
+  setActivePage,
+  setDeleteModal
 } = postsSlice.actions;
 
 const getAllPosts = (state) => state.posts.list;
@@ -84,6 +89,7 @@ const getSelectedPosts = (state) => state.posts.selected;
 const getActivePage = (state) => state.posts.activePage;
 const getPostPreview = (state) => state.posts.preview;
 const getPostsQty = (state) => state.posts.qty;
+const getDeleteModal = (state) => state.posts.deleteModal;
 
 export {
   getAllPosts,
@@ -93,10 +99,12 @@ export {
   getActivePage,
   getPostPreview,
   getSelectedPosts,
+  getDeleteModal,
   fetchPosts,
   addToSelected,
   addPostPreviewData,
   resetPreview,
   removeFromSelected,
-  setActivePage
+  setActivePage,
+  setDeleteModal
 };
