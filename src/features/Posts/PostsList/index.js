@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import PostTableHeader from "./PostTableHeader";
-import Post from "./Post";
+import Post from "../Post";
 import LoadingBar from "../../../components/LoadingBar";
 import LoadFail from "../../../components/LoadFail";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination";
 import {
   getAllPosts,
   getPostsStatus,
-  getPostsQty,
-  fetchPosts
+  fetchPosts,
+  getActivePage
 } from "../postsSlice";
 
 const postsWrapperStyle = {
@@ -22,24 +22,17 @@ const postsWrapperStyle = {
 };
 
 const PostsList = () => {
-  const limit = 15;
   const dispatch = useDispatch();
+  const limit = 15;
   const posts = useSelector(getAllPosts);
   const postStatus = useSelector(getPostsStatus);
-  const postsQty = useSelector(getPostsQty);
-
-  const [page, setPage] = useState(1);
-
-  const handleSetPage = (event, value) => {
-    setPage(value);
-    dispatch(fetchPosts({ page: value, limit }));
-  };
+  const activePage = useSelector(getActivePage);
 
   useEffect(() => {
     if (postStatus === "idle") {
-      dispatch(fetchPosts({ page, limit }));
+      dispatch(fetchPosts({ page: activePage, limit }));
     }
-  }, [postStatus, posts, page, dispatch]);
+  }, [postStatus, posts, activePage, dispatch]);
 
   if (postStatus === "loading") return <LoadingBar />;
   if (postStatus === "failed")
@@ -55,11 +48,7 @@ const PostsList = () => {
           ))}
         </TableBody>
       </Table>
-      <Pagination
-        page={page}
-        handleSetPage={handleSetPage}
-        pagesQty={Math.ceil(postsQty / limit)}
-      />
+      <Pagination limit={limit} />
     </Box>
   );
 };

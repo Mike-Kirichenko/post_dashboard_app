@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getSelectedPosts,
   getAllPosts,
-  addAllToSelected,
+  addToSelected,
   removeFromSelected
 } from "../postsSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,7 +25,7 @@ const PostTableHeader = () => {
   const handleSetAllChecked = () => {
     const allSeleted = checkSelected();
     if (allSeleted) dispatch(removeFromSelected(allPostIds));
-    else dispatch(addAllToSelected(allPostIds));
+    else dispatch(addToSelected(allPostIds));
   };
 
   const checkSelected = () =>

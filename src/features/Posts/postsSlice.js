@@ -4,6 +4,8 @@ import { loadPosts } from "../../services/graphQlApi";
 const initialState = {
   list: [],
   selected: [],
+  preview: {},
+  activePage: 1,
   qty: 0,
   status: "idle" //'idle' | 'loading' | 'succeeded' | 'failed'
 };
@@ -18,10 +20,17 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     addToSelected: (state, action) => {
-      state.selected.push(action.payload);
+      if (Array.isArray(action.payload)) {
+        const newIds = action.payload.filter(
+          (el) => !state.selected.includes(el)
+        );
+        state.selected.push(...newIds);
+      } else {
+        state.selected.push(action.payload);
+      }
     },
-    addAllToSelected: (state, action) => {
-      state.selected.push(...action.payload);
+    setActivePage: (state, action) => {
+      state.activePage = action.payload;
     },
     removeFromSelected: (state, action) => {
       let withoutRemovedItems;
@@ -35,6 +44,12 @@ const postsSlice = createSlice({
         );
       }
       state.selected = withoutRemovedItems;
+    },
+    addPostPreviewData: (state, action) => {
+      state.preview = action.payload;
+    },
+    resetPreview: (state) => {
+      state.preview = {};
     }
   },
   extraReducers(builder) {
@@ -55,22 +70,33 @@ const postsSlice = createSlice({
 
 const postsReducer = postsSlice.reducer;
 
-const { addToSelected, addAllToSelected, removeFromSelected } =
-  postsSlice.actions;
+const {
+  addToSelected,
+  addPostPreviewData,
+  resetPreview,
+  removeFromSelected,
+  setActivePage
+} = postsSlice.actions;
 
 const getAllPosts = (state) => state.posts.list;
 const getPostsStatus = (state) => state.posts.status;
 const getSelectedPosts = (state) => state.posts.selected;
+const getActivePage = (state) => state.posts.activePage;
+const getPostPreview = (state) => state.posts.preview;
 const getPostsQty = (state) => state.posts.qty;
 
 export {
-  fetchPosts,
   getAllPosts,
   postsReducer,
   getPostsStatus,
   getPostsQty,
+  getActivePage,
+  getPostPreview,
+  getSelectedPosts,
+  fetchPosts,
   addToSelected,
-  addAllToSelected,
+  addPostPreviewData,
+  resetPreview,
   removeFromSelected,
-  getSelectedPosts
+  setActivePage
 };
