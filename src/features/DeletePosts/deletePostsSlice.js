@@ -31,12 +31,16 @@ const deletePostsSlice = createSlice({
     setQty: (state, action) => {
       state.qty = action.payload;
     },
+    reset: (state) => {
+      state.list = [];
+    },
   },
 });
 
 const deletePostsReducer = deletePostsSlice.reducer;
 
-const { addToSelected, removeFromSelected, setQty } = deletePostsSlice.actions;
+const { addToSelected, removeFromSelected, setQty, reset } =
+  deletePostsSlice.actions;
 
 const getSelectedPosts = (state) => state.deletePosts.list;
 const getQty = (state) => state.deletePosts.qty;
@@ -48,4 +52,5 @@ export {
   addToSelected,
   removeFromSelected,
   setQty,
+  reset,
 };

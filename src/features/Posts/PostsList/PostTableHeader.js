@@ -3,7 +3,7 @@ import { getAllPosts } from '../postsSlice';
 import {
   getSelectedPosts,
   addToSelected,
-  removeFromSelected,
+  reset,
   setQty,
 } from '../../DeletePosts/deletePostsSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,14 +23,15 @@ const PostTableHeader = () => {
   const allPostIds = useSelector(getAllPosts).map((post) => post.id);
   const selectedPostIds = useSelector(getSelectedPosts);
 
+  const checkSelected = () =>
+    selectedPostIds.length > 0 &&
+    allPostIds.every((el) => selectedPostIds.includes(el));
+
   const handleSetAllChecked = () => {
     const allSeleted = checkSelected();
-    if (allSeleted) dispatch(removeFromSelected(allPostIds));
+    if (allSeleted) dispatch(reset());
     else dispatch(addToSelected(allPostIds));
   };
-
-  const checkSelected = () =>
-    allPostIds.every((el) => selectedPostIds.includes(el));
 
   return (
     <TableHead>

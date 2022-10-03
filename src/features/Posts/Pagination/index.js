@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Pagination as Page, Stack, Box } from "@mui/material";
+import { useDispatch, useSelector } from 'react-redux';
+import { Pagination as Page, Stack, Box } from '@mui/material';
 import {
   fetchPosts,
   getActivePage,
   getPostsQty,
-  setActivePage
-} from "../postsSlice";
-import "./pagination.css";
+  setActivePage,
+} from '../postsSlice';
+import './pagination.css';
 
 const Pagination = ({ limit }) => {
   const dispatch = useDispatch();
@@ -20,13 +20,13 @@ const Pagination = ({ limit }) => {
   };
 
   return (
-    <Box id="pages-wrapper">
-      <Box id="pages">
+    <Box id='pages-wrapper'>
+      <Box id='pages'>
         <Stack spacing={2}>
           <Page
             count={pagesQty}
             page={activePage}
-            color="primary"
+            color='primary'
             onChange={handleSetPage}
           />
         </Stack>

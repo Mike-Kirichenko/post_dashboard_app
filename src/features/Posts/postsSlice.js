@@ -1,18 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { loadPosts } from '../../services/graphQlApi';
+import { deletePosts } from '../../services/graphQlApi';
 
 const initialState = {
   list: [],
-  selected: [],
   activePage: 1,
-  removeQty: 0,
   qty: 0,
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  status: 'idle',
+  updStatus: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
 };
 
 const fetchPosts = createAsyncThunk(
   '@@posts/fetchPosts',
   async (variables = {}) => await loadPosts(variables)
+);
+
+const deleteByIds = createAsyncThunk(
+  '@@posts/deleteByIds',
+  async (postIds) => await deletePosts(postIds)
 );
 
 const postsSlice = createSlice({
@@ -35,6 +40,15 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state) => {
         state.status = 'failed';
+      })
+      .addCase(deleteByIds.pending, (state) => {
+        state.updStatus = 'loading';
+      })
+      .addCase(deleteByIds.fulfilled, (state, action) => {
+        state.updStatus = 'succeeded';
+      })
+      .addCase(deleteByIds.rejected, (state) => {
+        state.updStatus = 'failed';
       });
   },
 });
@@ -45,6 +59,7 @@ const { setActivePage } = postsSlice.actions;
 
 const getAllPosts = (state) => state.posts.list;
 const getPostsStatus = (state) => state.posts.status;
+const getUpdStatus = (state) => state.posts.updStatus;
 const getActivePage = (state) => state.posts.activePage;
 const getPostsQty = (state) => state.posts.qty;
 
@@ -54,6 +69,8 @@ export {
   getPostsStatus,
   getPostsQty,
   getActivePage,
+  getUpdStatus,
   fetchPosts,
+  deleteByIds,
   setActivePage,
 };
