@@ -1,24 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPosts } from '../postsSlice';
 import {
   getSelectedPosts,
-  getAllPosts,
   addToSelected,
   removeFromSelected,
-  setRemoveQty
-} from "../postsSlice";
-import DeleteIcon from "@mui/icons-material/Delete";
+  setQty,
+} from '../../DeletePosts/deletePostsSlice';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Checkbox,
   TableCell,
   TableHead,
   TableRow,
-  Typography
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 
 const PostTableHeader = () => {
   const dispatch = useDispatch();
 
-  const headings = ["CreatedAt", "Title", "Desc", "Category", "Img", "Preview"];
+  const headings = ['CreatedAt', 'Title', 'Desc', 'Category', 'Img', 'Preview'];
 
   const allPostIds = useSelector(getAllPosts).map((post) => post.id);
   const selectedPostIds = useSelector(getSelectedPosts);
@@ -35,10 +35,10 @@ const PostTableHeader = () => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding='checkbox'>
           <Checkbox
             checked={checkSelected()}
-            color="primary"
+            color='primary'
             onChange={handleSetAllChecked}
           />
         </TableCell>
@@ -46,10 +46,10 @@ const PostTableHeader = () => {
           {selectedPostIds.length > 0 && (
             <>
               <DeleteIcon
-                className="interactive-icon"
-                onClick={() => dispatch(setRemoveQty(selectedPostIds.length))}
+                className='interactive-icon'
+                onClick={() => dispatch(setQty(selectedPostIds.length))}
               />
-              <Typography variant="sup" component="sup">
+              <Typography variant='sup' component='sup'>
                 {selectedPostIds.length}
               </Typography>
             </>
