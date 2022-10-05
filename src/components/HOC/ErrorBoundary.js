@@ -4,12 +4,9 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { Typography } from '@mui/material';
 
 class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state = { hasError: false };
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
