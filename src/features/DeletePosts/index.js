@@ -8,40 +8,25 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getQty, setQty, reset } from './deletePostsSlice';
 import { getSelectedPosts } from '../DeletePosts/deletePostsSlice';
-import {
-  deleteByIds,
-  fetchPosts,
-  getActivePage,
-  getPostsQty,
-  getUpdStatus,
-  setActivePage,
-} from '../Posts/postsSlice';
+import { deleteByIds, getUpdStatus, getQueryObj } from '../Posts/postsSlice';
 
 const DeletePosts = () => {
-  let limit = 25;
   const dispatch = useDispatch();
   const qty = useSelector(getQty);
-  const postsQty = useSelector(getPostsQty);
-  const totalPages = Math.ceil(postsQty / limit);
+  const queryObj = useSelector(getQueryObj);
   const updStatus = useSelector(getUpdStatus);
   const selectedPostIds = useSelector(getSelectedPosts);
-  const activePage = useSelector(getActivePage);
 
   const handleDeletePosts = () => {
-    dispatch(deleteByIds({ postIds: selectedPostIds }));
+    dispatch(deleteByIds({ postIds: selectedPostIds, query: queryObj }));
   };
 
   useEffect(() => {
     if (updStatus === 'succeeded') {
       dispatch(setQty(0));
       dispatch(reset());
-      dispatch(fetchPosts({ page: activePage, limit }));
-      if (activePage > totalPages) {
-        dispatch(setActivePage(activePage - 1));
-        dispatch(fetchPosts({ page: activePage - 1, limit }));
-      }
     }
-  }, [updStatus, activePage, totalPages, limit, dispatch]);
+  }, [queryObj, updStatus, dispatch]);
 
   return (
     <Dialog

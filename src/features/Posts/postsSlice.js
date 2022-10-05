@@ -4,15 +4,15 @@ import { deletePosts } from '../../services/graphQlApi';
 
 const initialState = {
   list: [],
-  activePage: 1,
   qty: 0,
   status: 'idle',
+  queryObj: { page: 1, limit: 25 },
   updStatus: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
 };
 
 const fetchPosts = createAsyncThunk(
   '@@posts/fetchPosts',
-  async (variables = {}) => await loadPosts(variables)
+  async (variables) => await loadPosts(variables)
 );
 
 const deleteByIds = createAsyncThunk(
@@ -24,8 +24,8 @@ const postsSlice = createSlice({
   name: '@@posts',
   initialState,
   reducers: {
-    setActivePage: (state, action) => {
-      state.activePage = action.payload;
+    changeQueryObj: (state, action) => {
+      state.queryObj = { ...state.queryObj, ...action.payload };
     },
   },
   extraReducers(builder) {
@@ -46,6 +46,9 @@ const postsSlice = createSlice({
       })
       .addCase(deleteByIds.fulfilled, (state, action) => {
         state.updStatus = 'succeeded';
+        state.list = action.payload.list;
+        state.qty = action.payload.qty;
+        state.queryObj.page = action.payload.activePage;
       })
       .addCase(deleteByIds.rejected, (state) => {
         state.updStatus = 'failed';
@@ -55,12 +58,12 @@ const postsSlice = createSlice({
 
 const postsReducer = postsSlice.reducer;
 
-const { setActivePage } = postsSlice.actions;
+const { changeQueryObj } = postsSlice.actions;
 
 const getAllPosts = (state) => state.posts.list;
 const getPostsStatus = (state) => state.posts.status;
 const getUpdStatus = (state) => state.posts.updStatus;
-const getActivePage = (state) => state.posts.activePage;
+const getQueryObj = (state) => state.posts.queryObj;
 const getPostsQty = (state) => state.posts.qty;
 
 export {
@@ -68,9 +71,9 @@ export {
   postsReducer,
   getPostsStatus,
   getPostsQty,
-  getActivePage,
   getUpdStatus,
+  getQueryObj,
   fetchPosts,
   deleteByIds,
-  setActivePage,
+  changeQueryObj,
 };

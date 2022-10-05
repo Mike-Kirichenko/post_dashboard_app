@@ -17,8 +17,8 @@ export const graphqlRequest = async (query, variables = {}) => {
 
 export const loadPosts = async (variables) => {
   const { posts } = await graphqlRequest(
-    `query PostsQuery ($page: Int, $limit: Int, $dateFrom: String, $dateTo: String) {
-      posts(page: $page, limit: $limit, dateFrom: $dateFrom, dateTo: $dateTo) {
+    `query PostsQuery ($query: QueryObj) {
+      posts(query: $query) {
           list{
             id
             title
@@ -41,12 +41,31 @@ export const loadPosts = async (variables) => {
   return posts;
 };
 
-export const deletePosts = async (postIds) => {
-  const deleted = await graphqlRequest(
-    `mutation DeletePosts ($postIds: [ID]){
-      deleted: deletePosts(postIds: $postIds)
+export const deletePosts = async (postIds, query) => {
+  const { withoutDeleted } = await graphqlRequest(
+    `mutation DeletePosts ($postIds: [ID], $query: QueryObj){
+      withoutDeleted: deletePosts(postIds: $postIds, query: $query) {
+          list {
+              id
+              title
+              text
+              createdAt
+              updatedAt
+              img
+               category {
+                  name
+              }
+              user {
+                  firstName
+                  lastName
+              }
+          },
+          qty
+          activePage
+      }
   }`,
-    postIds
+    postIds,
+    query
   );
-  return deleted;
+  return withoutDeleted;
 };

@@ -2,21 +2,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination as Page, Stack, Box } from '@mui/material';
 import {
   fetchPosts,
-  getActivePage,
   getPostsQty,
-  setActivePage,
+  changeQueryObj,
+  getQueryObj,
 } from '../postsSlice';
 import './pagination.css';
 
-const Pagination = ({ limit }) => {
+const Pagination = () => {
   const dispatch = useDispatch();
   const postsQty = useSelector(getPostsQty);
-  const pagesQty = Math.ceil(postsQty / limit);
-  const activePage = useSelector(getActivePage);
+  const queryObj = useSelector(getQueryObj);
+  const pagesQty = Math.ceil(postsQty / queryObj.limit);
 
   const handleSetPage = (event, value) => {
-    dispatch(setActivePage(value));
-    dispatch(fetchPosts({ page: value, limit }));
+    const modifiedQuery = { page: value };
+    dispatch(changeQueryObj(modifiedQuery));
+    dispatch(fetchPosts({ query: { ...queryObj, ...modifiedQuery } }));
   };
 
   return (
@@ -25,7 +26,7 @@ const Pagination = ({ limit }) => {
         <Stack spacing={2}>
           <Page
             count={pagesQty}
-            page={activePage}
+            page={queryObj.page}
             color='primary'
             onChange={handleSetPage}
           />

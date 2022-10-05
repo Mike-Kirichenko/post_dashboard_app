@@ -12,7 +12,7 @@ import {
   getAllPosts,
   getPostsStatus,
   fetchPosts,
-  getActivePage,
+  getQueryObj,
   getPostsQty,
 } from '../postsSlice';
 
@@ -24,21 +24,20 @@ const postsWrapperStyle = {
 
 const PostsList = () => {
   const dispatch = useDispatch();
-  const limit = 25;
   const posts = useSelector(getAllPosts);
   const postsQty = useSelector(getPostsQty);
   const postStatus = useSelector(getPostsStatus);
-  const activePage = useSelector(getActivePage);
+  const queryObj = useSelector(getQueryObj);
 
   useEffect(() => {
     if (postStatus === 'idle') {
-      dispatch(fetchPosts({ page: activePage, limit }));
+      dispatch(fetchPosts({ query: queryObj }));
     }
-  }, [postStatus, posts, activePage, dispatch]);
+  }, [postStatus, queryObj, dispatch]);
 
   if (postStatus === 'loading') return <LoadingBar />;
   if (postStatus === 'failed')
-    return <LoadFail msg={'Oops... Something went wrong!'} />;
+    return <LoadFail msg='Oops... Something went wrong!' />;
 
   if (!postsQty) return <LoadFail msg='No posts yet!' />;
 
@@ -52,7 +51,7 @@ const PostsList = () => {
           ))}
         </TableBody>
       </Table>
-      <Pagination limit={limit} />
+      <Pagination />
     </Box>
   );
 };
