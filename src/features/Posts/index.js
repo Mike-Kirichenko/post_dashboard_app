@@ -1,23 +1,25 @@
-import { TableContainer } from '@mui/material';
 import UserPanel from '../../components/UserPanel';
-import Paper from '@mui/material/Paper';
 import PostsList from './PostsList';
 import Filter from '../../components/Filter';
 import PostPreview from '../PostPreview';
 import AddPost from './AddPost';
 import DeletePosts from '../DeletePosts';
+import ErrorBoundary from '../../components/HOC/ErrorBoundary';
+import { errorBoundryMsg } from '../../helpers';
 
 const Posts = () => {
   return (
     <>
-      <UserPanel />
+      <ErrorBoundary errMsg={errorBoundryMsg('UserPanel')}>
+        <UserPanel />
+      </ErrorBoundary>
       <Filter />
       <AddPost />
-      <TableContainer component={Paper}>
+      <ErrorBoundary errMsg={errorBoundryMsg('PostsList')}>
         <PostsList />
-      </TableContainer>
-      <PostPreview />
-      <DeletePosts />
+        <PostPreview />
+        <DeletePosts />
+      </ErrorBoundary>
     </>
   );
 };

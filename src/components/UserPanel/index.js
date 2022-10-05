@@ -25,14 +25,6 @@ const UserPanel = () => {
     localStorage.getItem('token')
   );
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -45,7 +37,7 @@ const UserPanel = () => {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        onClick={(event) => setAnchorEl(event.currentTarget)}
       >
         <Avatar alt='avatar' src={avatar}>
           {firstName[0]}
@@ -56,12 +48,14 @@ const UserPanel = () => {
         id='basic-menu'
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={() => setAnchorEl(null)}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Edit profile</MenuItem>
+        <MenuItem onClick={(event) => setAnchorEl(event.currentTarget)}>
+          Edit profile
+        </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>

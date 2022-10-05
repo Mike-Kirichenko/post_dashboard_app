@@ -7,7 +7,7 @@ const initialState = {
   qty: 0,
   status: 'idle',
   queryObj: { page: 1, limit: 25 },
-  updStatus: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  updStatus: 'idle',
 };
 
 const fetchPosts = createAsyncThunk(
@@ -50,7 +50,7 @@ const postsSlice = createSlice({
         state.qty = action.payload.qty;
         state.queryObj.page = action.payload.activePage;
       })
-      .addCase(deleteByIds.rejected, (state) => {
+      .addCase(deleteByIds.rejected, (state, action) => {
         state.updStatus = 'failed';
       });
   },

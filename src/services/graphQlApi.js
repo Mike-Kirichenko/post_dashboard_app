@@ -1,18 +1,22 @@
 const { REACT_APP_GRAPHQL_ENDPOINT: gqlEndpoint } = process.env;
 
 export const graphqlRequest = async (query, variables = {}) => {
-  const token = `Bearer ${localStorage.getItem('token')}`;
-  const res = await fetch(gqlEndpoint, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', Authorization: token },
-    body: JSON.stringify({ query, variables }),
-  });
-  const resBody = await res.json();
-  if (resBody.errors) {
-    const message = resBody.errors.map((error) => error.message).join('\n');
-    throw new Error(message);
+  try {
+    const token = `Bearer ${localStorage.getItem('token')}`;
+    const res = await fetch(gqlEndpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', Authorization: token },
+      body: JSON.stringify({ query, variables }),
+    });
+    const resBody = await res.json();
+    if (resBody.errors) {
+      const { code } = resBody.errors[0].extensions;
+      throw new Error(code);
+    }
+    return resBody.data;
+  } catch ({ message: status }) {
+    if (status === 'UNAUTHENTICATED') localStorage.removeItem('token');
   }
-  return resBody.data;
 };
 
 export const loadPosts = async (variables) => {

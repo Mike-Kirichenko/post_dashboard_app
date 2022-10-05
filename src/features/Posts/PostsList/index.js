@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box } from '@mui/system';
 import Table from '@mui/material/Table';
+import { TableContainer } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import TableBody from '@mui/material/TableBody';
 import PostTableHeader from './PostTableHeader';
 import Post from '../Post';
@@ -14,6 +15,7 @@ import {
   fetchPosts,
   getQueryObj,
   getPostsQty,
+  getUpdStatus,
 } from '../postsSlice';
 
 const postsWrapperStyle = {
@@ -27,6 +29,7 @@ const PostsList = () => {
   const posts = useSelector(getAllPosts);
   const postsQty = useSelector(getPostsQty);
   const postStatus = useSelector(getPostsStatus);
+  const updStatus = useSelector(getUpdStatus);
   const queryObj = useSelector(getQueryObj);
 
   useEffect(() => {
@@ -35,14 +38,15 @@ const PostsList = () => {
     }
   }, [postStatus, queryObj, dispatch]);
 
-  if (postStatus === 'loading') return <LoadingBar />;
+  if (postStatus === 'loading' || updStatus === 'loading')
+    return <LoadingBar />;
   if (postStatus === 'failed')
     return <LoadFail msg='Oops... Something went wrong!' />;
 
   if (!postsQty) return <LoadFail msg='No posts yet!' />;
 
   return (
-    <Box sx={postsWrapperStyle}>
+    <TableContainer component={Paper} sx={postsWrapperStyle}>
       <Table>
         <PostTableHeader />
         <TableBody>
@@ -52,7 +56,7 @@ const PostsList = () => {
         </TableBody>
       </Table>
       <Pagination />
-    </Box>
+    </TableContainer>
   );
 };
 

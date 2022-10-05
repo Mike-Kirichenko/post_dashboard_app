@@ -11,3 +11,11 @@ export const formatDate = (date) => {
     date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
   return `${datePart}/${monthPart}/${yearPart} ${hoursPart}:${minutesPart}`;
 };
+
+export const errorBoundryMsg = (componentName) => {
+  const errorMsg = {
+    UserPanel: 'Unfortunately users panel is unavaliable',
+    PostsList: 'Unfortunately Posts are unavaliable',
+  };
+  return errorMsg[componentName];
+};
