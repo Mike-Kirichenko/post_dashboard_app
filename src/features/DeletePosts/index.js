@@ -8,8 +8,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getQty, setQty, reset } from './deletePostsSlice';
 import { getSelectedPosts } from '../DeletePosts/deletePostsSlice';
-import { deleteByIds, getUpdStatus, getQueryObj } from '../Posts/postsSlice';
-import LoadingBar from '../../components/LoadingBar';
+import {
+  deleteByIds,
+  getUpdStatus,
+  getQueryObj,
+  changeUpdState,
+} from '../Posts/postsSlice';
 
 const DeletePosts = () => {
   const dispatch = useDispatch();
@@ -26,10 +30,9 @@ const DeletePosts = () => {
     if (updStatus === 'succeeded') {
       dispatch(setQty(0));
       dispatch(reset());
+      dispatch(changeUpdState('idle'));
     }
   }, [queryObj, updStatus, dispatch]);
-
-  if (updStatus === 'loading') return <LoadingBar />;
 
   return (
     <Dialog

@@ -27,6 +27,9 @@ const postsSlice = createSlice({
     changeQueryObj: (state, action) => {
       state.queryObj = { ...state.queryObj, ...action.payload };
     },
+    changeUpdState: (state, action) => {
+      state.updStatus = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -58,7 +61,7 @@ const postsSlice = createSlice({
 
 const postsReducer = postsSlice.reducer;
 
-const { changeQueryObj } = postsSlice.actions;
+const { changeQueryObj, changeUpdState } = postsSlice.actions;
 
 const getAllPosts = (state) => state.posts.list;
 const getPostsStatus = (state) => state.posts.status;
@@ -73,6 +76,7 @@ export {
   getPostsQty,
   getUpdStatus,
   getQueryObj,
+  changeUpdState,
   fetchPosts,
   deleteByIds,
   changeQueryObj,

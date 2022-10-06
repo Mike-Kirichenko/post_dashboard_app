@@ -24,7 +24,7 @@ const Filter = () => {
               id='standard-basic'
               label='Search'
               variant='standard'
-              placeholder='Enter post text'
+              placeholder='Enter post title or text'
             />
           </Grid>
           <Grid item xs={12} sm={3}>

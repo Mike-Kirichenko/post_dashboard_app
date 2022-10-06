@@ -7,6 +7,7 @@ import { formatDate } from '../../../helpers';
 import './postPreview.css';
 
 const PostPreview = () => {
+  const noImgUrl = './static-imgs/no-img.png';
   const dispatch = useDispatch();
   const previewData = useSelector(getPostPreview);
 
@@ -30,7 +31,7 @@ const PostPreview = () => {
           {createdAtDate} {createdAtTime}
         </Typography>
         <Box className='post-img-preview-box'>
-          <img src={img} alt={title} className='resp-img' />
+          <img src={img ? img : noImgUrl} alt={title} className='resp-img' />
         </Box>
         <Typography id='modal-modal-title' variant='h6' component='h2'>
           {title}
