@@ -53,7 +53,7 @@ const postsSlice = createSlice({
         state.qty = action.payload.qty;
         state.queryObj.page = action.payload.activePage;
       })
-      .addCase(deleteByIds.rejected, (state, action) => {
+      .addCase(deleteByIds.rejected, (state) => {
         state.updStatus = 'failed';
       });
   },
