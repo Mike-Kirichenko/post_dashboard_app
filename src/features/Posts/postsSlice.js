@@ -6,7 +6,7 @@ const initialState = {
   list: [],
   qty: 0,
   status: 'idle',
-  queryObj: { page: 1, limit: 25 },
+  queryObj: { page: 1, limit: 10 },
   updStatus: 'idle',
 };
 

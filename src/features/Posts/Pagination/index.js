@@ -19,6 +19,7 @@ const Pagination = () => {
     dispatch(changeQueryObj(modifiedQuery));
     dispatch(fetchPosts({ query: { ...queryObj, ...modifiedQuery } }));
   };
+
   if (pagesQty === 1) return null;
 
   return (
