@@ -20,6 +20,8 @@ const Pagination = () => {
     dispatch(fetchPosts({ query: { ...queryObj, ...modifiedQuery } }));
   };
 
+  if (pagesQty === 1) return null;
+
   return (
     <Box id='pages-wrapper'>
       <Box id='pages'>

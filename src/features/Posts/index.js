@@ -1,6 +1,6 @@
 import UserPanel from '../../components/UserPanel';
 import PostsList from './PostsList';
-import Filter from '../../components/Filter';
+import Filter from '../Filter';
 import PostPreview from '../PostPreview';
 import AddPost from './AddPost';
 import DeletePosts from '../DeletePosts';
