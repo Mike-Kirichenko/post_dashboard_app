@@ -1,0 +1,13 @@
+#postWrapper.MuiBox-root.css-0 {
+  width: 60%;
+  margin: auto;
+  padding: 0 0 100px;
+  margin-bottom: 100px;
+}
+
+#postWrapper.MuiBox-root.css-0 .customInput {
+  width: 100%;
+  text-transform: uppercase;
+  padding-top: 2%;
+  margin-top: 10%;
+}
