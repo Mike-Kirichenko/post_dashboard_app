@@ -14,10 +14,10 @@ const PictureUpload = ({ handleAddImgError, error }) => {
     if (pictureWhiteList.includes(pictureData.type)) {
       const pictureObj = URL.createObjectURL(pictureData);
       setPicture(pictureObj);
-      handleAddImgError({ img: '' });
+      handleAddImgError('');
     } else {
       setPicture(null);
-      handleAddImgError({ img: 'Invalid file type' });
+      handleAddImgError('Invalid file type');
     }
   };
 

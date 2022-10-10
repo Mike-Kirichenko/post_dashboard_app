@@ -73,3 +73,16 @@ export const deletePosts = async (postIds, query) => {
   );
   return withoutDeleted;
 };
+
+export const loadCategories = async () => {
+  const { categories } = await graphqlRequest(
+    `query CategoriesQuery {
+      categories {
+          id
+          name
+      }
+    }
+    `
+  );
+  return categories;
+};

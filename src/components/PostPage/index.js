@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, FormHelperText, NativeSelect } from '@mui/material';
 import UserPanel from '../UserPanel';
 import PictureUpload from '../PictureUpload';
+import { loadCategories } from '../../services/graphQlApi';
 import './postPage.css';
 
 const PostPage = () => {
@@ -15,13 +16,21 @@ const PostPage = () => {
     categoryId: '',
   };
 
+  const [categories, setCategories] = useState([]);
   const [errorMsg, setErrMsg] = useState(initialErrorState);
+
+  useEffect(() => {
+    loadCategories().then((ctg) => {
+      setCategories(ctg);
+    });
+  }, []);
 
   const handleCollectFormData = (event) => {
     const errObj = {};
     const postDataObject = {};
     event.preventDefault();
     const formData = new FormData(event.target);
+
     for (const [key, value] of formData.entries()) {
       postDataObject[key] = value;
     }
@@ -50,8 +59,8 @@ const PostPage = () => {
     }
   };
 
-  const handleAddImgError = (errObj) => {
-    setErrMsg((prevErr) => ({ ...prevErr, ...errObj }));
+  const handleAddImgError = (msg) => {
+    setErrMsg((prevErr) => ({ ...prevErr, img: msg }));
   };
 
   return (
@@ -84,18 +93,12 @@ const PostPage = () => {
         />
         <FormControl fullWidth sx={{ marginTop: '98px' }}>
           <NativeSelect placeholder='Choose category' name='categoryId'>
-            <option value={null}>{null}</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value={null}></option>
+            {categories.map((ctg, i) => (
+              <option value={ctg.id} key={`ctg-${ctg.id}-${i}`}>
+                {ctg.name}
+              </option>
+            ))}
           </NativeSelect>
 
           <FormHelperText
