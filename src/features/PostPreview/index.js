@@ -10,6 +10,8 @@ const PostPreview = () => {
   const dispatch = useDispatch();
   const previewData = useSelector(getPostPreview);
 
+  const { REACT_APP_SERVER_UPLOAD_BASE, REACT_APP_NO_IMG_URL } = process.env;
+
   if (!previewData || !Object.keys(previewData).length) return null;
 
   const { createdAt, title, text, category, img } = previewData;
@@ -30,7 +32,15 @@ const PostPreview = () => {
           {createdAtDate} {createdAtTime}
         </Typography>
         <Box className='post-img-preview-box'>
-          <img src={img} alt={title} className='resp-img' />
+          <img
+            src={
+              img
+                ? `${REACT_APP_SERVER_UPLOAD_BASE}/${img}`
+                : REACT_APP_NO_IMG_URL
+            }
+            alt={title}
+            className='resp-img'
+          />
         </Box>
         <Typography id='modal-modal-title' variant='h6' component='h2'>
           {title}
