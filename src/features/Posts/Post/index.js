@@ -14,6 +14,7 @@ import {
 import './post.css';
 
 const Post = ({ row }) => {
+  const { REACT_APP_SERVER_UPLOAD_BASE } = process.env;
   const dispatch = useDispatch();
   const selectedPosts = useSelector(getSelectedPosts);
 
@@ -58,7 +59,7 @@ const Post = ({ row }) => {
       <TableCell>
         <Box className='post-table-thumb-box'>
           <img
-            src={img ? img : noImgUrl}
+            src={img ? `${REACT_APP_SERVER_UPLOAD_BASE}/${img}` : noImgUrl}
             alt={title}
             className='resp-img thumb'
           />
