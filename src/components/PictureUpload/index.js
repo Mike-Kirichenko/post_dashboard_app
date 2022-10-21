@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import { Box } from '@mui/material';
-import LoadFail from '../LoadFail';
-import './pictureUpload.css';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import { Box } from "@mui/material";
+import LoadFail from "../LoadFail";
+import "./pictureUpload.css";
 
 const PictureUpload = ({ handleAddImgError, error }) => {
   const [picture, setPicture] = useState(null);
 
   const handlePictureSelect = ({ target }) => {
-    const pictureWhiteList = ['image/jpeg', 'image/png'];
+    const pictureWhiteList = ["image/jpeg", "image/png"];
     const [pictureData] = target.files;
     if (pictureWhiteList.includes(pictureData.type)) {
       const pictureObj = URL.createObjectURL(pictureData);
+      console.log("pictureObj", pictureObj);
       setPicture(pictureObj);
-      handleAddImgError('');
+      handleAddImgError("");
     } else {
       setPicture(null);
-      handleAddImgError('Invalid file type');
+      handleAddImgError("Invalid file type");
     }
   };
 

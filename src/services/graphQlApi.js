@@ -1,11 +1,11 @@
 const { REACT_APP_GRAPHQL_ENDPOINT: gqlEndpoint } = process.env;
 
-export const graphqlRequest = async (query, variables = {}) => {
+const graphqlRequest = async (query, variables = {}) => {
   try {
-    const token = `Bearer ${localStorage.getItem('token')}`;
+    const token = `Bearer ${localStorage.getItem("token")}`;
     const res = await fetch(gqlEndpoint, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', Authorization: token },
+      method: "POST",
+      headers: { "content-type": "application/json", Authorization: token },
       body: JSON.stringify({ query, variables }),
     });
     const resBody = await res.json();
@@ -15,7 +15,7 @@ export const graphqlRequest = async (query, variables = {}) => {
     }
     return resBody.data;
   } catch ({ message: status }) {
-    if (status === 'UNAUTHENTICATED') localStorage.removeItem('token');
+    if (status === "UNAUTHENTICATED") localStorage.removeItem("token");
   }
 };
 
@@ -85,4 +85,31 @@ export const loadCategories = async () => {
     `
   );
   return categories;
+};
+
+export const addPost = async (postData) => {
+  const formData = new FormData();
+  const operations = `{ "query": "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {title \n text \n category {name}\n img \n user {nickname}}}", "variables": { "input": { "categoryId": ${postData.categoryId}, "title": ${postData.title}, "text": "${postData.text} }"}`;
+  formData.append("operations", operations);
+  const map = `{"0": ["variables.file"]}`;
+  formData.append("map", map);
+  formData.append("0", postData.img);
+
+  try {
+    const token = `Bearer ${localStorage.getItem("token")}`;
+    const res = await fetch(gqlEndpoint, {
+      method: "POST",
+      headers: { Authorization: token },
+      body: formData,
+    });
+
+    const resBody = await res.json();
+    if (resBody.errors) {
+      const { code } = resBody.errors[0].extensions;
+      throw new Error(code);
+    }
+    return resBody.data;
+  } catch ({ message: status }) {
+    if (status === "UNAUTHENTICATED") localStorage.removeItem("token");
+  }
 };

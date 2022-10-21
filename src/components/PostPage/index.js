@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { FormControl, FormHelperText, NativeSelect } from '@mui/material';
-import UserPanel from '../UserPanel';
-import PictureUpload from '../PictureUpload';
-import { loadCategories } from '../../services/graphQlApi';
-import './postPage.css';
+import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { FormControl, FormHelperText, NativeSelect } from "@mui/material";
+import UserPanel from "../UserPanel";
+import PictureUpload from "../PictureUpload";
+import { loadCategories, addPost } from "../../services/graphQlApi";
+import "./postPage.css";
 
 const PostPage = () => {
   const initialErrorState = {
-    title: '',
-    text: '',
-    img: '',
-    categoryId: '',
+    title: "",
+    text: "",
+    img: "",
+    categoryId: "",
   };
 
   const [categories, setCategories] = useState([]);
@@ -25,7 +25,7 @@ const PostPage = () => {
     });
   }, []);
 
-  const handleCollectFormData = (event) => {
+  const handleCollectFormData = async (event) => {
     const errObj = {};
     const postDataObject = {};
     event.preventDefault();
@@ -36,15 +36,15 @@ const PostPage = () => {
     }
 
     if (!postDataObject.title) {
-      errObj.title = 'Title is required';
+      errObj.title = "Title is required";
     }
 
     if (!postDataObject.text) {
-      errObj.text = 'Text is required';
+      errObj.text = "Text is required";
     }
 
     if (!postDataObject.categoryId) {
-      errObj.categoryId = 'Category is required';
+      errObj.categoryId = "Category is required";
     }
 
     if (Object.keys(errObj).length) {
@@ -52,7 +52,7 @@ const PostPage = () => {
     } else {
       if (!errorMsg.img) {
         setErrMsg(initialErrorState);
-        console.log(postDataObject);
+        await addPost(postDataObject);
       } else {
         setErrMsg({ ...initialErrorState, img: errorMsg.img });
       }
@@ -91,7 +91,7 @@ const PostPage = () => {
           error={Boolean(errorMsg.text)}
           helperText={errorMsg.text}
         />
-        <FormControl fullWidth sx={{ marginTop: '98px' }}>
+        <FormControl fullWidth sx={{ marginTop: "98px" }}>
           <NativeSelect placeholder='Choose category' name='categoryId'>
             <option value={null}></option>
             {categories.map((ctg, i) => (
@@ -102,7 +102,7 @@ const PostPage = () => {
           </NativeSelect>
 
           <FormHelperText
-            sx={{ textTransform: 'uppercase' }}
+            sx={{ textTransform: "uppercase" }}
             error={Boolean(errorMsg.categoryId)}
           >
             {Boolean(errorMsg.categoryId) && errorMsg.categoryId}
