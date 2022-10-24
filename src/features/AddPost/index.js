@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormControl, FormHelperText, NativeSelect } from "@mui/material";
-import UserPanel from "../UserPanel";
-import PictureUpload from "../PictureUpload";
-import { loadCategories, addPost } from "../../services/graphQlApi";
+import UserPanel from "../../components/UserPanel";
+import PictureUpload from "../../components/PictureUpload";
+import { loadCategories } from "../../services/graphQlApi";
 import "./postPage.css";
+import { addNewPost, changeUpdState } from "../Posts/postsSlice";
 
-const PostPage = () => {
+const AddPost = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialErrorState = {
     title: "",
     text: "",
@@ -50,7 +56,9 @@ const PostPage = () => {
     } else {
       if (!errorMsg.img) {
         setErrMsg(initialErrorState);
-        await addPost(postDataObject);
+        dispatch(addNewPost(postDataObject));
+        dispatch(changeUpdState("succeeded"));
+        navigate("/");
       } else {
         setErrMsg({ ...initialErrorState, img: errorMsg.img });
       }
@@ -114,4 +122,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default AddPost;

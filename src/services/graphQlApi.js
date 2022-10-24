@@ -32,10 +32,6 @@ export const loadPosts = async (variables) => {
             category {
                name
             }
-            user {
-               firstName
-               lastName
-            }
           }
         qty
       }
@@ -58,10 +54,6 @@ export const deletePosts = async (postIds, query) => {
               img
                category {
                   name
-              }
-              user {
-                  firstName
-                  lastName
               }
           },
           qty
@@ -91,7 +83,7 @@ export const addPost = async (postData) => {
   const formData = new FormData();
   const operations = {
     query:
-      "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {title text category {name} img user {nickname}}}",
+      "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {id title text createdAt category {name} img }}",
     variables: {
       input: {
         categoryId: postData.categoryId,

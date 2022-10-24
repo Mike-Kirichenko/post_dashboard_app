@@ -13,7 +13,6 @@ const PictureUpload = ({ handleAddImgError, error }) => {
     const [pictureData] = target.files;
     if (pictureWhiteList.includes(pictureData.type)) {
       const pictureObj = URL.createObjectURL(pictureData);
-      console.log("pictureObj", pictureObj);
       setPicture(pictureObj);
       handleAddImgError("");
     } else {
