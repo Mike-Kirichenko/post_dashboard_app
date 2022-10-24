@@ -41,7 +41,7 @@ export const loadPosts = async (variables) => {
   return posts;
 };
 
-export const deletePosts = async (postIds, query) => {
+export const deletePosts = async (postIdsWithQuery) => {
   const { withoutDeleted } = await graphqlRequest(
     `mutation DeletePosts ($postIds: [ID], $query: QueryObj){
       withoutDeleted: deletePosts(postIds: $postIds, query: $query) {
@@ -60,8 +60,7 @@ export const deletePosts = async (postIds, query) => {
           activePage
       }
   }`,
-    postIds,
-    query
+    postIdsWithQuery
   );
   return withoutDeleted;
 };
@@ -79,24 +78,38 @@ export const loadCategories = async () => {
   return categories;
 };
 
-export const addPost = async (postData) => {
+export const addPost = async (postDataWithQuery) => {
+  const { query } = postDataWithQuery;
+  const { categoryId, title, text, img } = postDataWithQuery.postData;
   const formData = new FormData();
   const operations = {
-    query:
-      "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {id title text createdAt category {name} img }}",
+    query: `mutation CreatePost ($input: CreatePostInput, $file: Upload, $query: QueryObj) {
+        afterAdded:createPost(input: $input, file: $file, query: $query) {
+          list {
+            id 
+            title 
+            text 
+            createdAt 
+            category {name} img
+          },
+          qty
+          activePage
+        }
+      }`,
     variables: {
       input: {
-        categoryId: postData.categoryId,
-        title: postData.title,
-        text: postData.text,
+        categoryId,
+        title,
+        text,
       },
       file: null,
+      query,
     },
   };
   formData.append("operations", JSON.stringify(operations));
   const map = { 0: ["variables.file"] };
   formData.append("map", JSON.stringify(map));
-  formData.append("0", postData.img);
+  formData.append("0", img);
 
   try {
     const token = `Bearer ${localStorage.getItem("token")}`;
@@ -108,12 +121,12 @@ export const addPost = async (postData) => {
       body: formData,
     });
 
-    const resBody = await res.json();
-    if (resBody.errors) {
-      const { code } = resBody.errors[0].extensions;
+    const { data } = await res.json();
+    if (data.errors) {
+      const { code } = data.errors[0].extensions;
       throw new Error(code);
     }
-    return resBody.data;
+    return data.afterAdded;
   } catch ({ message: status }) {
     if (status === "UNAUTHENTICATED") localStorage.removeItem("token");
   }

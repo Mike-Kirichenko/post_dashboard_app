@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,11 +9,12 @@ import UserPanel from "../../components/UserPanel";
 import PictureUpload from "../../components/PictureUpload";
 import { loadCategories } from "../../services/graphQlApi";
 import "./postPage.css";
-import { addNewPost, changeUpdState } from "../Posts/postsSlice";
+import { addNewPost, changeUpdState, getQueryObj } from "../Posts/postsSlice";
 
 const AddPost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryObj = useSelector(getQueryObj);
 
   const initialErrorState = {
     title: "",
@@ -56,7 +57,7 @@ const AddPost = () => {
     } else {
       if (!errorMsg.img) {
         setErrMsg(initialErrorState);
-        dispatch(addNewPost(postDataObject));
+        dispatch(addNewPost({ postData: postDataObject, query: queryObj }));
         dispatch(changeUpdState("succeeded"));
         navigate("/");
       } else {

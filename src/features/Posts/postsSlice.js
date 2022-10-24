@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loadPosts, deletePosts, addPost } from "../../services/graphQlApi";
 
+const initialQueryObj = { page: 1, limit: 10 };
+
 const initialState = {
   list: [],
   qty: 0,
   status: "idle",
-  queryObj: { page: 1, limit: 10 },
+  queryObj: initialQueryObj,
   updStatus: "idle",
 };
 
@@ -16,12 +18,12 @@ const fetchPosts = createAsyncThunk(
 
 const deleteByIds = createAsyncThunk(
   "@@posts/deleteByIds",
-  async (postIds) => await deletePosts(postIds)
+  async (postIdsWithQuery) => await deletePosts(postIdsWithQuery)
 );
 
 const addNewPost = createAsyncThunk(
   "@@posts/addNewPost",
-  async (postData) => await addPost(postData)
+  async (postDataWithQuery) => await addPost(postDataWithQuery)
 );
 
 const postsSlice = createSlice({
@@ -61,15 +63,16 @@ const postsSlice = createSlice({
         state.updStatus = "failed";
       })
       .addCase(addNewPost.pending, (state) => {
-        state.status = "loading";
+        state.updStatus = "succeeded";
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.list.unshift(action.payload.post);
-        state.qty = state.qty + 1;
+        state.updStatus = "succeeded";
+        state.list = action.payload.list;
+        state.qty = action.payload.qty;
+        state.queryObj.page = action.payload.activePage;
       })
       .addCase(addNewPost.rejected, (state) => {
-        state.status = "failed";
+        state.updStatus = "failed";
       });
   },
 });
