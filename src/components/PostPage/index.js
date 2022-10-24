@@ -20,9 +20,7 @@ const PostPage = () => {
   const [errorMsg, setErrMsg] = useState(initialErrorState);
 
   useEffect(() => {
-    loadCategories().then((ctg) => {
-      setCategories(ctg);
-    });
+    loadCategories().then((ctg) => setCategories(ctg));
   }, []);
 
   const handleCollectFormData = async (event) => {

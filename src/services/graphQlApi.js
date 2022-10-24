@@ -89,17 +89,30 @@ export const loadCategories = async () => {
 
 export const addPost = async (postData) => {
   const formData = new FormData();
-  const operations = `{ "query": "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {title \n text \n category {name}\n img \n user {nickname}}}", "variables": { "input": { "categoryId": ${postData.categoryId}, "title": ${postData.title}, "text": "${postData.text} }"}`;
-  formData.append("operations", operations);
-  const map = `{"0": ["variables.file"]}`;
-  formData.append("map", map);
+  const operations = {
+    query:
+      "mutation CreatePost ($input: CreatePostInput, $file: Upload){post:createPost(input: $input, file: $file) {title text category {name} img user {nickname}}}",
+    variables: {
+      input: {
+        categoryId: postData.categoryId,
+        title: postData.title,
+        text: postData.text,
+      },
+      file: null,
+    },
+  };
+  formData.append("operations", JSON.stringify(operations));
+  const map = { 0: ["variables.file"] };
+  formData.append("map", JSON.stringify(map));
   formData.append("0", postData.img);
 
   try {
     const token = `Bearer ${localStorage.getItem("token")}`;
     const res = await fetch(gqlEndpoint, {
       method: "POST",
-      headers: { Authorization: token },
+      headers: {
+        Authorization: token,
+      },
       body: formData,
     });
 
