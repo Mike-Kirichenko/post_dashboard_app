@@ -40,7 +40,7 @@ const AddPost = () => {
       postDataObject[key] = value;
     }
 
-    if (!postDataObject.img) {
+    if (!postDataObject.img.name) {
       errObj.img = "img is required";
     }
 

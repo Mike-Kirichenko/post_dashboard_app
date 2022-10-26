@@ -1,16 +1,19 @@
-import { useSelector, useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { getPostPreview, resetPreview } from './postPreviewSlice';
-import { formatDate } from '../../helpers';
-import './postPreview.css';
+import { useSelector, useDispatch } from "react-redux";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import { getPostPreview, resetPreview } from "./postPreviewSlice";
+import { formatDate } from "../../helpers";
+import "./postPreview.css";
 
 const PostPreview = () => {
   const dispatch = useDispatch();
   const previewData = useSelector(getPostPreview);
 
-  const { REACT_APP_SERVER_UPLOAD_BASE, REACT_APP_NO_IMG_URL } = process.env;
+  const {
+    REACT_APP_SERVER_UPLOAD_BASE: imgBase,
+    REACT_APP_NO_IMG_URL: noImgUrl,
+  } = process.env;
 
   if (!previewData || !Object.keys(previewData).length) return null;
 
@@ -18,7 +21,7 @@ const PostPreview = () => {
 
   const [createdAtDate, createdAtTime] = formatDate(
     new Date(Number(createdAt))
-  ).split(' ');
+  ).split(" ");
 
   return (
     <Modal
@@ -33,11 +36,7 @@ const PostPreview = () => {
         </Typography>
         <Box className='post-img-preview-box'>
           <img
-            src={
-              img
-                ? `${REACT_APP_SERVER_UPLOAD_BASE}/${img}`
-                : REACT_APP_NO_IMG_URL
-            }
+            src={img ? `${imgBase}/${img}` : noImgUrl}
             alt={title}
             className='resp-img'
           />
