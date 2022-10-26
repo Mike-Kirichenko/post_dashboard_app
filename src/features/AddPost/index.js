@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import { FormControl, FormHelperText, NativeSelect } from "@mui/material";
 import UserPanel from "../../components/UserPanel";
 import PictureUpload from "../../components/PictureUpload";
-import { loadCategories } from "../../services/graphQlApi";
-import "./postPage.css";
+import { loadCategories } from "../../services/graphQLApi";
+import "./addPost.css";
 import { addNewPost, changeUpdState, getQueryObj } from "../Posts/postsSlice";
 
 const AddPost = () => {
@@ -38,6 +38,10 @@ const AddPost = () => {
 
     for (const [key, value] of formData.entries()) {
       postDataObject[key] = value;
+    }
+
+    if (!postDataObject.img) {
+      errObj.img = "img is required";
     }
 
     if (!postDataObject.title) {

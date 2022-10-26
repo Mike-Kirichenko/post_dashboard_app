@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loadPosts, deletePosts, addPost } from "../../services/graphQlApi";
+import { loadPosts, deletePosts, addPost } from "../../services/graphQLApi";
 
 const initialQueryObj = { page: 1, limit: 10 };
 

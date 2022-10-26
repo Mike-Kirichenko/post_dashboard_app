@@ -1,3 +1,10 @@
+import {
+  loadPostsQuery,
+  loadCategoriesQuery,
+  deletePostsMutation,
+  createPostMutation,
+} from "./graphQLQueryStrings";
+
 const { REACT_APP_GRAPHQL_ENDPOINT: gqlEndpoint } = process.env;
 
 const graphqlRequest = async (query, variables = {}) => {
@@ -20,61 +27,20 @@ const graphqlRequest = async (query, variables = {}) => {
 };
 
 export const loadPosts = async (variables) => {
-  const { posts } = await graphqlRequest(
-    `query PostsQuery ($query: QueryObj) {
-      posts(query: $query) {
-          list{
-            id
-            title
-            text
-            createdAt
-            img
-            category {
-               name
-            }
-          }
-        qty
-      }
-  }`,
-    variables
-  );
+  const { posts } = await graphqlRequest(loadPostsQuery, variables);
   return posts;
 };
 
 export const deletePosts = async (postIdsWithQuery) => {
   const { withoutDeleted } = await graphqlRequest(
-    `mutation DeletePosts ($postIds: [ID], $query: QueryObj){
-      withoutDeleted: deletePosts(postIds: $postIds, query: $query) {
-          list {
-              id
-              title
-              text
-              createdAt
-              updatedAt
-              img
-               category {
-                  name
-              }
-          },
-          qty
-          activePage
-      }
-  }`,
+    deletePostsMutation,
     postIdsWithQuery
   );
   return withoutDeleted;
 };
 
 export const loadCategories = async () => {
-  const { categories } = await graphqlRequest(
-    `query CategoriesQuery {
-      categories {
-          id
-          name
-      }
-    }
-    `
-  );
+  const { categories } = await graphqlRequest(loadCategoriesQuery);
   return categories;
 };
 
@@ -83,19 +49,7 @@ export const addPost = async (postDataWithQuery) => {
   const { categoryId, title, text, img } = postDataWithQuery.postData;
   const formData = new FormData();
   const operations = {
-    query: `mutation CreatePost ($input: CreatePostInput, $file: Upload, $query: QueryObj) {
-        afterAdded:createPost(input: $input, file: $file, query: $query) {
-          list {
-            id 
-            title 
-            text 
-            createdAt 
-            category {name} img
-          },
-          qty
-          activePage
-        }
-      }`,
+    query: createPostMutation,
     variables: {
       input: {
         categoryId,
@@ -106,6 +60,7 @@ export const addPost = async (postDataWithQuery) => {
       query,
     },
   };
+
   formData.append("operations", JSON.stringify(operations));
   const map = { 0: ["variables.file"] };
   formData.append("map", JSON.stringify(map));
