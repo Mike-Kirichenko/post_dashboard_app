@@ -14,10 +14,10 @@ import {
 import './post.css';
 
 const Post = ({ row }) => {
+  const { REACT_APP_SERVER_UPLOAD_BASE, REACT_APP_NO_IMG_URL } = process.env;
   const dispatch = useDispatch();
   const selectedPosts = useSelector(getSelectedPosts);
 
-  const noImgUrl = './static-imgs/no-img.png';
   const { id, createdAt, title, text, category, img } = row;
 
   const [createdAtDate, createdAtTime] = formatDate(
@@ -58,7 +58,11 @@ const Post = ({ row }) => {
       <TableCell>
         <Box className='post-table-thumb-box'>
           <img
-            src={img ? img : noImgUrl}
+            src={
+              img
+                ? `${REACT_APP_SERVER_UPLOAD_BASE}/${img}`
+                : REACT_APP_NO_IMG_URL
+            }
             alt={title}
             className='resp-img thumb'
           />

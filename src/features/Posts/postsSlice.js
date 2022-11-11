@@ -1,27 +1,33 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loadPosts } from '../../services/graphQlApi';
-import { deletePosts } from '../../services/graphQlApi';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { loadPosts, deletePosts, addPost } from "../../services/graphQLApi";
+
+const initialQueryObj = { page: 1, limit: 10 };
 
 const initialState = {
   list: [],
   qty: 0,
-  status: 'idle',
-  queryObj: { page: 1, limit: 10 },
-  updStatus: 'idle',
+  status: "idle",
+  queryObj: initialQueryObj,
+  updStatus: "idle",
 };
 
 const fetchPosts = createAsyncThunk(
-  '@@posts/fetchPosts',
+  "@@posts/fetchPosts",
   async (variables) => await loadPosts(variables)
 );
 
 const deleteByIds = createAsyncThunk(
-  '@@posts/deleteByIds',
-  async (postIds) => await deletePosts(postIds)
+  "@@posts/deleteByIds",
+  async (postIdsWithQuery) => await deletePosts(postIdsWithQuery)
+);
+
+const addNewPost = createAsyncThunk(
+  "@@posts/addNewPost",
+  async (postDataWithQuery) => await addPost(postDataWithQuery)
 );
 
 const postsSlice = createSlice({
-  name: '@@posts',
+  name: "@@posts",
   initialState,
   reducers: {
     changeQueryObj: (state, action) => {
@@ -34,27 +40,39 @@ const postsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.list = action.payload.list;
         state.qty = action.payload.qty;
       })
       .addCase(fetchPosts.rejected, (state) => {
-        state.status = 'failed';
+        state.status = "failed";
       })
       .addCase(deleteByIds.pending, (state) => {
-        state.updStatus = 'loading';
+        state.updStatus = "loading";
       })
       .addCase(deleteByIds.fulfilled, (state, action) => {
-        state.updStatus = 'succeeded';
+        state.updStatus = "succeeded";
         state.list = action.payload.list;
         state.qty = action.payload.qty;
         state.queryObj.page = action.payload.activePage;
       })
       .addCase(deleteByIds.rejected, (state) => {
-        state.updStatus = 'failed';
+        state.updStatus = "failed";
+      })
+      .addCase(addNewPost.pending, (state) => {
+        state.updStatus = "succeeded";
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        state.updStatus = "succeeded";
+        state.list = action.payload.list;
+        state.qty = action.payload.qty;
+        state.queryObj.page = action.payload.activePage;
+      })
+      .addCase(addNewPost.rejected, (state) => {
+        state.updStatus = "failed";
       });
   },
 });
@@ -78,6 +96,7 @@ export {
   getQueryObj,
   changeUpdState,
   fetchPosts,
+  addNewPost,
   deleteByIds,
   changeQueryObj,
 };

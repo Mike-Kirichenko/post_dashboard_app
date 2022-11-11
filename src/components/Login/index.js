@@ -8,8 +8,9 @@ import './login.css';
 import { Alert, Snackbar } from '@mui/material';
 
 const Login = () => {
+  const initialErrorState = { loginErr: '', pswErr: '' };
   const navigate = useNavigate();
-  const [errMsg, setErrMsg] = useState({ loginErr: '', pswErr: '' });
+  const [errMsg, setErrMsg] = useState(initialErrorState);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -76,10 +77,7 @@ const Login = () => {
       </form>
       {errMsg.length && typeof errMsg !== 'object' && (
         <Snackbar open>
-          <Alert
-            onClose={() => setErrMsg({ loginErr: '', pswErr: '' })}
-            severity='error'
-          >
+          <Alert onClose={() => setErrMsg(initialErrorState)} severity='error'>
             {errMsg}
           </Alert>
         </Snackbar>
